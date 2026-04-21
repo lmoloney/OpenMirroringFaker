@@ -50,3 +50,13 @@ src/open_mirroring_faker/
 - `pytest` for unit tests
 - Mock Azure clients in OneLake writer tests
 - Test Parquet output is valid and follows conventions (last column, compression, types)
+
+## Repository Standards Checklist
+
+This repo follows `~/Developer/dev-diary/notes/repo-standards.md`. When making changes, ensure:
+
+- [ ] `CHANGELOG.md` is updated (Keep a Changelog format)
+- [ ] New architectural decisions get an ADR in `docs/decisions/`
+- [ ] Public repo files are present: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`
+- [ ] GitHub labels follow the 13-label standard (applied via `repo-setup`)
+- [ ] Branch protection uses rulesets (not legacy rules)
