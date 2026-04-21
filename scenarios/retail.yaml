@@ -1,0 +1,104 @@
+scenario:
+  name: "Retail Demo"
+  partner_name: "OpenMirroringFaker"
+  source_type: "FakeRetailDB"
+
+tables:
+  - name: "Customers"
+    schema: "dbo"
+    key_columns: ["CustomerID"]
+    columns:
+      - name: "CustomerID"
+        type: "int"
+        generator: "sequence"
+      - name: "FirstName"
+        type: "string"
+        generator: "first_name"
+      - name: "LastName"
+        type: "string"
+        generator: "last_name"
+      - name: "Email"
+        type: "string"
+        generator: "email"
+      - name: "City"
+        type: "string"
+        generator: "city"
+      - name: "SignupDate"
+        type: "datetime"
+        generator: "date_this_year"
+      - name: "IsActive"
+        type: "boolean"
+        generator: "boolean"
+        args:
+          probability: 0.9
+
+  - name: "Orders"
+    schema: "dbo"
+    key_columns: ["OrderID"]
+    columns:
+      - name: "OrderID"
+        type: "int"
+        generator: "sequence"
+      - name: "CustomerID"
+        type: "int"
+        generator: "random_int"
+        args:
+          min: 1
+          max: 500
+      - name: "OrderDate"
+        type: "datetime"
+        generator: "now"
+      - name: "TotalAmount"
+        type: "float"
+        generator: "random_float"
+        args:
+          min: 9.99
+          max: 499.99
+          precision: 2
+      - name: "Status"
+        type: "string"
+        generator: "choice"
+        args:
+          values: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled", "Returned"]
+
+  - name: "Products"
+    schema: "dbo"
+    key_columns: ["ProductID"]
+    columns:
+      - name: "ProductID"
+        type: "int"
+        generator: "sequence"
+      - name: "ProductName"
+        type: "string"
+        generator: "sentence"
+      - name: "Category"
+        type: "string"
+        generator: "choice"
+        args:
+          values: ["Electronics", "Clothing", "Home & Garden", "Sports", "Books", "Toys", "Food & Drink"]
+      - name: "Price"
+        type: "float"
+        generator: "random_float"
+        args:
+          min: 4.99
+          max: 299.99
+          precision: 2
+      - name: "InStock"
+        type: "boolean"
+        generator: "boolean"
+        args:
+          probability: 0.85
+      - name: "Supplier"
+        type: "string"
+        generator: "company"
+
+generation:
+  mode: "continuous"
+  batch_size: 25
+  interval_seconds: 5
+  total_batches: null
+  operations:
+    insert: 0.7
+    update: 0.2
+    delete: 0.1
+  seed: null

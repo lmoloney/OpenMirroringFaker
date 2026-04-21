@@ -1,0 +1,109 @@
+scenario:
+  name: "HR Demo"
+  partner_name: "OpenMirroringFaker"
+  source_type: "FakeHRDB"
+
+tables:
+  - name: "Employees"
+    schema: "hr"
+    key_columns: ["EmployeeID"]
+    columns:
+      - name: "EmployeeID"
+        type: "int"
+        generator: "sequence"
+      - name: "FirstName"
+        type: "string"
+        generator: "first_name"
+      - name: "LastName"
+        type: "string"
+        generator: "last_name"
+      - name: "Email"
+        type: "string"
+        generator: "email"
+      - name: "Department"
+        type: "string"
+        generator: "choice"
+        args:
+          values: ["Engineering", "Sales", "Marketing", "Finance", "HR", "Legal", "Operations", "Support"]
+      - name: "HireDate"
+        type: "datetime"
+        generator: "date_this_year"
+      - name: "Salary"
+        type: "float"
+        generator: "random_float"
+        args:
+          min: 45000.00
+          max: 180000.00
+          precision: 2
+      - name: "IsActive"
+        type: "boolean"
+        generator: "boolean"
+        args:
+          probability: 0.92
+
+  - name: "Departments"
+    schema: "hr"
+    key_columns: ["DepartmentID"]
+    columns:
+      - name: "DepartmentID"
+        type: "int"
+        generator: "sequence"
+      - name: "Name"
+        type: "string"
+        generator: "choice"
+        args:
+          values: ["Engineering", "Sales", "Marketing", "Finance", "HR", "Legal", "Operations", "Support"]
+      - name: "Location"
+        type: "string"
+        generator: "city"
+      - name: "HeadCount"
+        type: "int"
+        generator: "random_int"
+        args:
+          min: 5
+          max: 200
+      - name: "Budget"
+        type: "float"
+        generator: "random_float"
+        args:
+          min: 100000.00
+          max: 5000000.00
+          precision: 2
+
+  - name: "TimeOff"
+    schema: "hr"
+    key_columns: ["RequestID"]
+    columns:
+      - name: "RequestID"
+        type: "int"
+        generator: "sequence"
+      - name: "EmployeeID"
+        type: "int"
+        generator: "random_int"
+        args:
+          min: 1
+          max: 500
+      - name: "StartDate"
+        type: "datetime"
+        generator: "date_this_year"
+      - name: "Type"
+        type: "string"
+        generator: "choice"
+        args:
+          values: ["Vacation", "Sick", "Personal", "Bereavement", "Parental", "Jury Duty"]
+      - name: "Status"
+        type: "string"
+        generator: "choice"
+        args:
+          values: ["Pending", "Approved", "Denied", "Cancelled"]
+
+generation:
+  mode: "continuous"
+  batch_size: 25
+  interval_seconds: 5
+  total_batches: null
+  operations:
+    insert: 0.75
+    update: 0.2
+    delete: 0.05
+  seed: null
